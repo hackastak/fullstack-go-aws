@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"lambda-func/app"
 
 	"github.com/aws/aws-lambda-go/lambda"
 )
@@ -14,9 +15,10 @@ func HandleRequest(event MyEvent) (string, error) {
 	if event.Username == "" {
 		return "", fmt.Errorf("Username cannot be empty")
 	}
-	return fmt.Sprintf("Successful called by - %s", event.Username), nil
+	return fmt.Sprintf("Successfully called by - %s", event.Username), nil
 }
 
 func main() {
-	lambda.Start(HandleRequest)
+	myApp := app.NewApp()
+	lambda.Start(myApp.ApiHandler.RegisterUserHandler)
 }
